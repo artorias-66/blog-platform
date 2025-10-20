@@ -2,6 +2,10 @@
 
 This is a full-stack blogging platform built as part of a technical assessment. It uses a modern tech stack including Next.js 15, tRPC, Drizzle ORM, and PostgreSQL to allow users to create, manage, and filter blog posts and categories.
 
+## Live Demo
+
+The project is deployed on Render and can be viewed here: [https://blog-platform-7aip.onrender.com/](https://blog-platform-7aip.onrender.com/)
+
 ## Features
 
 ### 🔴 Core Features (Priority 1)
