@@ -40,7 +40,7 @@ The project is deployed on Render and can be viewed here: [https://blog-platform
 - **Database**: PostgreSQL with Drizzle ORM
 - **State Management**: React Query (via tRPC), Zustand
 - **Content**: Markdown support with react-markdown
-- **Deployment**: Vercel (recommended)
+- **Deployment**: Render
 
 ## Getting Started
 
@@ -53,7 +53,7 @@ The project is deployed on Render and can be viewed here: [https://blog-platform
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/artorias-66/blog-platform
    cd blog-platform
    ```
 
@@ -168,26 +168,21 @@ The application uses tRPC for type-safe APIs with the following routers:
 
 ## Deployment
 
-### Vercel (Recommended)
+This project is configured for deployment on [Render](https://render.com/).
 
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+1.  **Create a new "Web Service"** on Render and connect your GitHub repository.
 
-2. **Deploy to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Add environment variables:
-     - `DATABASE_URL` - Your PostgreSQL connection string
-     - `NEXT_PUBLIC_SITE_URL` - Your production URL
-   - Deploy!
+2.  **Configure the service:**
+    *   **Build Command**: `npm install && npm run build`
+    *   **Start Command**: `npm start`
 
-3. **Set up production database**
-   - Run migrations: `npm run db:migrate`
-   - Seed data: `npm run db:seed`
+3.  **Add Environment Variables:**
+    *   `DATABASE_URL`: Your PostgreSQL connection string (you can create a free Postgres instance on Render).
+    *   `NEXT_PUBLIC_SITE_URL`: Set this to the value of `RENDER_EXTERNAL_URL`. Render provides this variable automatically and it will point to your public URL.
+
+4.  **Deploy!** Render will automatically build and deploy your application.
+
+5.  **Database Migrations:** After the first deployment, you may need to run migrations. You can do this by connecting to your Render instance via the shell and running `npm run db:migrate`.
 
 ## Development Scripts
 
