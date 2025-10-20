@@ -8,7 +8,10 @@ export default function EditCategoryPage() {
   const params = useParams();
   const categoryId = Number(params.id);
 
-  const { data: category, isLoading } = trpc.categories.byId.useQuery({ id: categoryId });
+  const { data: category, isLoading, error } = trpc.categories.getById.useQuery(
+    { id: categoryId },
+    { enabled: !!categoryId }
+  );
   const updateCategory = trpc.categories.update.useMutation();
 
   const [name, setName] = useState("");

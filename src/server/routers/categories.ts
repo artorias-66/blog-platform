@@ -64,4 +64,20 @@ export const categoriesRouter = router({
     await db.delete(categories).where(eq(categories.id, input.id));
     return { success: true } as const;
   }),
+  getById: procedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .query(async ({ input }) => {
+      const [category] = await db
+        .select()
+        .from(categories)
+        .where(eq(categories.id, input.id));
+
+      if (!category) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Category not found.",
+        });
+      }
+      return category;
+    }),
 });
