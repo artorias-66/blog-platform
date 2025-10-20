@@ -1,16 +1,21 @@
 "use client";
 import Link from "next/link";
 import { trpc } from "../../../trpc/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function PostsDashboardPage() {
+  const queryClient = useQueryClient();
   const { data: postsData, isLoading, error } = trpc.posts.list.useQuery();
   const posts = Array.isArray(postsData) ? postsData : [];
-  const deletePost = trpc.posts.delete.useMutation();
+  const deletePost = trpc.posts.delete.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [['posts', 'list']] }); // Invalidate the list query to refetch posts
+    },
+  });
 
   const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this post?")) {
       await deletePost.mutateAsync({ id });
-      // The query will automatically refetch due to React Query
     }
   };
 
@@ -42,7 +47,7 @@ export default function PostsDashboardPage() {
                 <Link href={`/posts/${post.slug}`} className="text-blue-600 hover:text-blue-800 text-sm">
                   View
                 </Link>
-                <Link href={`/dashboard/posts/edit?id=${post.id}`} className="text-green-600 hover:text-green-800 text-sm">
+                <Link href={`/dashboard/posts/${post.id}/edit`} className="text-green-600 hover:text-green-800 text-sm">
                   Edit
                 </Link>
                 <button
