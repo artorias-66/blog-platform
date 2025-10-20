@@ -4,7 +4,7 @@ This is a full-stack blogging platform built as part of a technical assessment. 
 
 ## Live Demo
 
-The project is deployed on Render and can be viewed here: [https://blog-platform-7aip.onrender.com/](https://blog-platform-7aip.onrender.com/)
+The project is deployed on Vercel and can be viewed here: [https://blog-platform-murex.vercel.app/](https://blog-platform-murex.vercel.app/)
 
 ## Features
 
@@ -40,7 +40,7 @@ The project is deployed on Render and can be viewed here: [https://blog-platform
 - **Database**: PostgreSQL with Drizzle ORM
 - **State Management**: React Query (via tRPC), Zustand
 - **Content**: Markdown support with react-markdown
-- **Deployment**: Render
+- **Deployment**: Vercel
 
 ## Getting Started
 
@@ -168,9 +168,9 @@ The application uses tRPC for type-safe APIs with the following routers:
 
 ## Deployment
 
-This project is configured for deployment on [Render](https://render.com/).
+This project is configured for deployment on [Vercel](https://vercel.com/).
 
-1.  **Create a new "Web Service"** on Render and connect your GitHub repository.
+1.  **Create a new "Project"** on Vercel and connect your GitHub repository.
 
 2.  **Configure the service:**
     *   **Build Command**: `npm install && npm run build`
@@ -178,11 +178,11 @@ This project is configured for deployment on [Render](https://render.com/).
 
 3.  **Add Environment Variables:**
     *   `DATABASE_URL`: Your PostgreSQL connection string (you can create a free Postgres instance on Render).
-    *   `NEXT_PUBLIC_SITE_URL`: Set this to the value of `RENDER_EXTERNAL_URL`. Render provides this variable automatically and it will point to your public URL.
+    *   `NEXT_PUBLIC_SITE_URL`: Set this to the value of your Vercel deployment URL.
 
-4.  **Deploy!** Render will automatically build and deploy your application.
+4.  **Deploy!** Vercel will automatically build and deploy your application.
 
-5.  **Database Migrations:** After the first deployment, you may need to run migrations. You can do this by connecting to your Render instance via the shell and running `npm run db:migrate`.
+5.  **Database Migrations:** After the first deployment, you may need to run migrations. You can do this by connecting to your Vercel deployment via the shell and running `npm run db:migrate`.
 
 ## Development Scripts
 
