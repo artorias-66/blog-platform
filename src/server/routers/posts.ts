@@ -3,7 +3,7 @@ import { db } from "../db";
 import { categories, posts, postsToCategories } from "../db/schema";
 import { procedure, router } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { eq, inArray, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { slugify } from "../utils/slugify";
 
 const basePost = z.object({
