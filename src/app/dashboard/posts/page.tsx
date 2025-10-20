@@ -42,7 +42,7 @@ export default function PostsDashboardPage() {
                 <Link href={`/posts/${post.slug}`} className="text-blue-600 hover:text-blue-800 text-sm">
                   View
                 </Link>
-                <Link href={`/dashboard/posts/${post.id}/edit`} className="text-green-600 hover:text-green-800 text-sm">
+                <Link href={`/dashboard/posts/edit?id=${post.id}`} className="text-green-600 hover:text-green-800 text-sm">
                   Edit
                 </Link>
                 <button

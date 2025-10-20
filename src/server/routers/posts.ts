@@ -56,6 +56,17 @@ export const postsRouter = router({
     return { ...row, categories: catRows };
   }),
 
+  getById: procedure.input(z.object({ id: z.number().int().positive() })).query(async ({ input }) => {
+    const [row] = await db.select().from(posts).where(eq(posts.id, input.id)).limit(1);
+    if (!row) throw new Error("Post not found");
+    const catRows = await db
+      .select({ id: categories.id, name: categories.name, slug: categories.slug })
+      .from(postsToCategories)
+      .innerJoin(categories, eq(categories.id, postsToCategories.categoryId))
+      .where(eq(postsToCategories.postId, row.id));
+    return { ...row, categories: catRows };
+  }),
+
   create: procedure.input(basePost).mutation(async ({ input }) => {
     const slug = slugify(input.title);
 

@@ -4,12 +4,16 @@ import { trpc } from "../../../trpc/client";
 
 export default function CategoriesDashboardPage() {
   const { data: categories, isLoading, error } = trpc.categories.list.useQuery();
-  const deleteCategory = trpc.categories.delete.useMutation();
+  const queryClient = trpc.useContext();
+  const deleteCategory = trpc.categories.delete.useMutation({
+    onSuccess: () => {
+      queryClient.categories.list.invalidate();
+    },
+  });
 
   const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this category?")) {
       await deleteCategory.mutateAsync({ id });
-      // The query will automatically refetch due to React Query
     }
   };
 
