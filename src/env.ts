@@ -6,7 +6,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
   },
   client: {
-    NEXT_PUBLIC_SITE_URL: z.string().url(),
+    NEXT_PUBLIC_SITE_URL: z.string().min(1),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
