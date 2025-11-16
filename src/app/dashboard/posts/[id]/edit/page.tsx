@@ -33,7 +33,7 @@ export default function EditPostPage() {
       setTitle(post.title);
       setContent(post.content);
       setPublished(post.published);
-      setSelectedCategories(post.categories?.map((c: any) => c.id) || []);
+      setSelectedCategories(post.categories?.map((c) => c.id) || []);
     }
   }, [post]);
 

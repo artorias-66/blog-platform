@@ -8,7 +8,7 @@ export default function EditCategoryPage() {
   const params = useParams();
   const categoryId = Number(params.id);
 
-  const { data: category, isLoading, error } = trpc.categories.getById.useQuery(
+  const { data: category, isLoading } = trpc.categories.getById.useQuery(
     { id: categoryId },
     { enabled: !!categoryId }
   );
