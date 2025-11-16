@@ -66,7 +66,7 @@ export default function NewPostPage() {
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full border rounded px-3 py-2 h-64"
+            className="w-full border rounded px-3 py-2 min-h-[200px]"
             placeholder="Write your post content in Markdown..."
             required
           />

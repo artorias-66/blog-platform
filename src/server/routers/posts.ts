@@ -47,7 +47,12 @@ export const postsRouter = router({
 
   bySlug: procedure.input(z.object({ slug: z.string().min(1) })).query(async ({ input }) => {
     const [row] = await db.select().from(posts).where(eq(posts.slug, input.slug)).limit(1);
-    if (!row) throw new Error("Post not found");
+    if (!row) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Post not found",
+      });
+    }
     const catRows = await db
       .select({ id: categories.id, name: categories.name, slug: categories.slug })
       .from(postsToCategories)

@@ -30,21 +30,21 @@ export default function PostsList() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">All Posts</h1>
-        <Link href="/dashboard/posts/new" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">All Posts</h1>
+        <Link href="/dashboard/posts/new" className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors">
           New Post
         </Link>
       </div>
       
-      <div className="flex items-center gap-4">
-        <label htmlFor="category-filter" className="text-sm font-medium">Filter by category:</label>
+      <div className="flex items-center gap-4 mb-8">
+        <label htmlFor="category-filter" className="text-base font-medium text-gray-300">Filter by category:</label>
         <select
           id="category-filter"
           value={selectedCategory}
           onChange={(e) => handleCategoryChange(e.target.value)}
-          className="border rounded px-3 py-1"
+          className="border border-gray-600 bg-gray-800 text-white rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">All Categories</option>
           {categories?.map((cat) => (
@@ -57,17 +57,19 @@ export default function PostsList() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts?.length === 0 ? (
-          <p className="text-gray-500">No posts found.</p>
+          <p className="text-gray-500 text-lg">No posts found.</p>
         ) : (
           posts?.map((p) => (
-            <article key={p.id} className="card">
+            <article key={p.id} className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <Link href={`/posts/${p.slug}`} className="block">
-                <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                <h2 className="text-2xl font-bold mb-3 text-white hover:text-blue-400 transition-colors">
                   {p.title}
                 </h2>
-                <div className="text-sm text-gray-400 mb-2">
+                <div className="text-sm text-gray-400">
                   {new Date(p.createdAt).toLocaleDateString()} •{" "}
-                  {p.published ? "Published" : "Draft"}
+                  <span className={p.published ? "text-green-400" : "text-yellow-400"}>
+                    {p.published ? "Published" : "Draft"}
+                  </span>
                 </div>
               </Link>
             </article>

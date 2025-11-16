@@ -14,6 +14,9 @@ export default function EditPostPage() {
     { enabled: !!postId }
   );
 
+  const { data: categoriesData } = trpc.categories.list.useQuery();
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
+
   const updatePost = trpc.posts.update.useMutation({
     onSuccess: () => {
       router.push("/dashboard/posts");
@@ -23,14 +26,24 @@ export default function EditPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   useEffect(() => {
     if (post) {
       setTitle(post.title);
       setContent(post.content);
       setPublished(post.published);
+      setSelectedCategories(post.categories?.map((c: any) => c.id) || []);
     }
   }, [post]);
+
+  const toggleCategory = (categoryId: number) => {
+    setSelectedCategories(prev =>
+      prev.includes(categoryId)
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +52,7 @@ export default function EditPostPage() {
       title,
       content,
       published,
+      categoryIds: selectedCategories,
     });
   };
 
@@ -51,7 +65,7 @@ export default function EditPostPage() {
       <h1 className="text-2xl font-semibold">Edit Post</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="title" className="block text-sm font-medium mb-2">
             Title
           </label>
           <input
@@ -59,32 +73,50 @@ export default function EditPostPage() {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="w-full border border-gray-600 bg-gray-700 rounded px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
             required
           />
         </div>
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-            Content
+          <label htmlFor="content" className="block text-sm font-medium mb-2">
+            Content (Markdown)
           </label>
           <textarea
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={10}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="w-full border border-gray-600 bg-gray-700 rounded px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
             required
           ></textarea>
         </div>
-        <div className="flex items-center">
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Categories</label>
+          <div className="space-y-2">
+            {categories?.map((category) => (
+              <label key={category.id} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(category.id)}
+                  onChange={() => toggleCategory(category.id)}
+                  className="rounded"
+                />
+                <span>{category.name}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center space-x-2">
           <input
             type="checkbox"
             id="published"
             checked={published}
             onChange={(e) => setPublished(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="rounded"
           />
-          <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
+          <label htmlFor="published" className="text-sm font-medium">
             Published
           </label>
         </div>
